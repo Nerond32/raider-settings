@@ -15,6 +15,7 @@ class Updater extends IUpdater{
 
 	public Updater(RAIDING r) {
 		super(r.AMOUNT, TIME.secondsPerDay());
+		raidingInterval = 6*16*TIME.secondsPerDay();
 	}
 
 	@Override
@@ -52,6 +53,8 @@ class Updater extends IUpdater{
 	
 	@Override
 	public void clear() {
+		RaidProp.reloadValues();
+		raidingInterval = 6*16*TIME.secondsPerDay();
 		timer = 0;
 		super.clear();
 	}

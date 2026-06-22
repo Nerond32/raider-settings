@@ -4,11 +4,13 @@ Raider Settings is a Songs of Syx code mod that exposes a small set of configura
 
 ## Settings file
 
-The mod creates and reads this file from the game's local settings directory:
+The mod creates and reads this shared settings file from the game's local settings directory:
 
 ```text
-RaiderSettings.txt
+EmiTheWitch.txt
 ```
+
+The file name is kept for compatibility with the external in-game properties editor.
 
 Supported properties:
 

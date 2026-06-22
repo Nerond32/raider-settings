@@ -52,7 +52,7 @@ public class Raider implements Serializable{
 		
 		indu = new Induvidual(HTYPES.SOLDIER(), rr);
 		Str.TMP.clear().add(indu.race().info.raiderNames[RND.rInt(indu.race().info.raiderNames.length)]);  
-		Str.TMP.insert(0, STATS.APPEARANCE().nameFirst(indu));
+		Str.TMP.insert(0, STATS.APPEARANCE().nameFirst.name(indu));
 		name = "" + Str.TMP;		
 		adjust(wealth, power, quality);
 		text = new RaiderText();
@@ -61,7 +61,7 @@ public class Raider implements Serializable{
 	public Raider(Race race, double power) {
 		indu = new Induvidual(HTYPES.SOLDIER(), race);
 		Str.TMP.clear().add(indu.race().info.raiderNames[RND.rInt(indu.race().info.raiderNames.length)]);  
-		Str.TMP.insert(0, STATS.APPEARANCE().nameFirst(indu));
+		Str.TMP.insert(0, STATS.APPEARANCE().nameFirst.name(indu));
 		name = "" + Str.TMP;		
 		adjust(0, power, RND.rFloat());
 		text = new RaiderText();

@@ -1,15 +1,15 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="DEBUG" type="Application" factoryName="Application">
-    <option name="ALTERNATIVE_JRE_PATH" value="corretto-1.8" />
+    <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <classpathModifications>
-      <entry path="C:\Backup\Project Fun\Songs of Syx\V70\base\script\001_Tutorial.jar" />
-      <entry path="C:\Backup\Project Fun\Songs of Syx\V70\base\script\000_Tutorial.jar" />
-      <entry path="$PROJECT_DIR$/target/Extra Info.jar" />
+      <entry path="$USER_HOME$/.steam/steam/steamapps/common/Songs of Syx/base/script/001_Tutorial.jar" />
+      <entry path="$USER_HOME$/.steam/steam/steamapps/common/Songs of Syx/base/script/000_Tutorial.jar" />
+      <entry path="$PROJECT_DIR$/target/Raider Settings.jar" />
     </classpathModifications>
     <option name="MAIN_CLASS_NAME" value="init.MainProcess" />
-    <module name="extra.info" />
-    <option name="WORKING_DIRECTORY" value="C:/Backup/Project Fun/Songs of Syx/V70" />
+    <module name="raider-settings" />
+    <option name="WORKING_DIRECTORY" value="$USER_HOME$/.steam/steam/steamapps/common/Songs of Syx" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean" />

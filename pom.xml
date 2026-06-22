@@ -4,16 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>extra.info</artifactId>
-    <version>0.7.0</version>
+    <groupId>org.modloader</groupId>
+    <artifactId>raider-settings</artifactId>
+    <version>0.71.0</version>
 
     <profiles>
         <profile>
             <id>windows</id>
             <properties>
                 <game.mod.directory>${user.home}/AppData/Roaming/songsofsyx/mods</game.mod.directory>
-                <game.install.directory>C:/Backup/Project Fun/Songs of Syx/V70</game.install.directory>
+                <game.workshop.directory>C:/Program Files (x86)/Steam/steamapps/workshop/content/1162750</game.workshop.directory>
+                <game.install.directory>C:/Program Files (x86)/Steam/steamapps/common/Songs of Syx</game.install.directory>
                 <game.mod.uploader.directory>${user.home}/AppData/Roaming/songsofsyx/mods-uploader</game.mod.uploader.directory>
             </properties>
             <activation>
@@ -26,7 +27,8 @@
             <id>linux</id>
             <properties>
                 <game.mod.directory>${user.home}/.local/share/songsofsyx/mods</game.mod.directory>
-                <game.install.directory>${user.home}/Games/steamapps/common/Songs of Syx/</game.install.directory>
+                <game.workshop.directory>${user.home}/.steam/steam/steamapps/workshop/content/1162750</game.workshop.directory>
+                <game.install.directory>${user.home}/.steam/steam/steamapps/common/Songs of Syx</game.install.directory>
                 <game.mod.uploader.directory>${user.home}/.local/share/songsofsyx/mods-uploader</game.mod.uploader.directory>
             </properties>
             <activation>
@@ -40,24 +42,21 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-clean-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <filesets>
-                                        <fileset>
-                                            <!-- Remove installed mod from mod uploader directory on clean -->
-                                            <directory>${mod.uploader.directory}</directory>
-                                            <includes>
-                                                <!-- Deletes mod folder with files -->
-                                                <include>**</include>
-                                            </includes>
-                                            <followSymlinks>false</followSymlinks>
-                                        </fileset>
-                                    </filesets>
-                                </configuration>
-                            </execution>
-                        </executions>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <!-- Remove installed mod from mod uploader directory on clean -->
+                                    <directory>${mod.uploader.directory}</directory>
+                                    <includes>
+                                        <!-- Deletes mod folder with files -->
+                                        <include>**</include>
+                                    </includes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -92,19 +91,18 @@
     </profiles>
 
     <properties>
-        <!-- Songs of Syx uses Java 1.8 -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- Songs of Syx uses Java 21 -->
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- These settings will go into the mods _Info.txt file -->
-        <mod.version>0.70</mod.version>
+        <mod.version>${project.version}</mod.version>
         <mod.name>Raider Settings</mod.name>
         <mod.description>Provides few tweak options to raiders</mod.description>
         <mod.author>Nerond</mod.author>
         <mod.info> </mod.info>
-        <game.version.major>70</game.version.major>
-        <game.version.minor>0</game.version.minor>
+        <game.version.major>71</game.version.major>
+        <game.version.minor>38</game.version.minor>
 
         <!-- Build settings -->
         <game.version.directory>V${game.version.major}</game.version.directory>
@@ -126,12 +124,11 @@
         <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
         <mockito-core.version>4.11.0</mockito-core.version>
         <assertj-core.version>3.24.2</assertj-core.version>
-        <lombok.version>1.18.26</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
 
         <!-- Build plugin versions -->
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <junit-platform-surefire-provider.version>1.3.2</junit-platform-surefire-provider.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-install-plugin.version>3.1.0</maven-install-plugin.version>
         <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
@@ -233,6 +230,14 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Premain-Class>mod.loader.ModLoader</Premain-Class>
+                                        <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
                             <artifactSet>
                                 <excludes>
                                     <exclude>com.songsofsyx:*</exclude>
@@ -245,6 +250,7 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <configuration>
                     <filesets>
@@ -438,13 +444,6 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit-platform-surefire-provider.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

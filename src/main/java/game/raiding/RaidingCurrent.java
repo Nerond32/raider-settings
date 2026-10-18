@@ -3,7 +3,7 @@ package game.raiding;
 import java.io.IOException;
 
 import game.GAME;
-import game.debug.Profiler;
+import game.profile.Profiler;
 import game.faction.FACTIONS;
 import game.faction.Faction;
 import game.faction.npc.FactionNPC;

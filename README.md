@@ -1,85 +1,52 @@
-# Raider Settings
+Vanilla friendly set of configurable options to raiders in the game. Raids are too rare? Want to disable raiders entirely? Tired of constantly scared raiders? This might be a mod you are looking for.
 
-Raider Settings is a Songs of Syx code mod that exposes a small set of configurable raider behavior tweaks.
+This mod doesn't modify save file and can be added/removed without issues.
 
-## Settings file
+Config
+This game uses a configuration file to save those settings, which can be found in:
+Windows: C:/users/{your_username}/AppData/Roaming/songsofsyx/settings/EmiTheWitch.txt
+Linux: home/{your_username}/.local/share/songsofsyx/settings/EmiTheWitch.txt) OR inside your wineprefix
 
-The mod creates and reads this shared settings file from the game's local settings directory:
+It will be created the first time you load any game with the mod active.
 
-```text
-EmiTheWitch.txt
-```
+How to change settings:
+Edit the .txt file directly.
+OR use the Extra Info mod by EmilyTheWitch to access a "Mod Settings" tab in-game.
 
-The file name is kept for compatibility with the external in-game properties editor.
+Changes should work as soon as you reload the game or manual/auto save is triggered. If it doesn't do the trick - restart the game.
 
-Supported properties:
+Default config
+Raid_Settings_Bounty_Multiplier=1.0
+Raid_Settings_Fearless_Raiders=0
+Raid_Settings_Frequency=5.0
+Raid_Settings_Leave_My_Raiders_Alone=0
+Raid_Settings_Ruthless_Raiders=0
+Raid_Settings_Show_All_Raider_Info=0
+Raid_Settings_Wealth_Scaling=1.0
 
-- `Raid_Settings_Frequency`: Multiplier for how quickly raiders progress toward a raid.
-- `Raid_Settings_Wealth_Scaling`: Multiplier for current ransom value when checking whether raiders are interested.
-- `Raid_Settings_Fearless_Raiders`: Set to `1` to prevent raiders from backing off because of army strength.
-- `Raid_Settings_Leave_My_Raiders_Alone`: Set to `1` to prevent raiders from passing through another faction.
-- `Raid_Settings_Ruthless_Raiders`: Set to `1` to let raiders stay interested regardless of wealth.
-- `Raid_Settings_Show_All_Raider_Info`: Set to `1` to show raider information before the normal reveal conditions.
-- `Raid_Settings_Bounty_Multiplier`: Multiplier for bounty rewards when raiders are defeated.
+To reset your config either replace it with above or remove the file and let game recreate the config. Setting invalid value will reset them to default as well.
 
-Invalid or missing values are replaced with defaults when the mod loads.
+Settings explained
 
-## Build and install
+Bounty Multiplier (0.0 to 100.0)
+Multiplies denars you get for defeating a raider.
 
-Build against Songs of Syx **71.90** using Java 21 or newer. The game JAR and
-`info/SongsOfSyx-sources.jar` must come from that installation. Override the
-installation path with `-Dgame.install.directory="/path/to/Songs of Syx"` if needed.
+Fearless Raiders (0 or 1)
+Tired of purposely keeping small garrison and hiding your troops on a lake to provoke weak raiders because you are completionist and want to kill them all? Enable it and their survival instinct will be effectively lobotomized.
 
-On the first build for a game version, run `mvn validate` separately to register
-the game JAR in Maven's local repository before dependency resolution.
+Frequency (0.0 to 1000.0)
+Direct multiplier to the frequency. 5.0 - 5x more frequent, 0.5 - half as often, 0.0 - disabled
 
-Use Maven to build the mod and copy it into the local Songs of Syx mod directory:
+Any value above 500 will likely make raids happen directly one after another. Values above ~300 might create a backlog of raiders to handle one by one even after you remove this mod due to how game code handles raiders.
 
-```bash
-mvn clean install
-```
+Wealth Scaling (0.0 to 100.0)
+Direct multiplier of wealth impact on raider interest. 0.0 - no raider is ever interested, 1.0 default, 5.0 - raider is interested with 5 times less wealth. Irrelevant when ruthless raiders are enabled.
 
-The installed mod is written to:
+Leave My Raiders Alone (0 or 1)
+So once again a friendly neighbour mentioned a raider that is about to attack you from their territory. You refused to pay and didn't want help, yet they still not only stopped the raider, but they are upset, that you didn't pay the raider??? Enabling this setting will make them never intervene unless you specifically use "Ask for Help" button.
 
-```text
-${game.mod.directory}/Raider Settings
-```
+Ruthless Raiders (0 or 1)
+Raiders ignore wealth. As soon as raids are unlocked, every single raider will want your stuff. They will extort you with you being unable to defend yourself, quite likely without money to pay. Why wouldn't they? Life is not fair. Enable at your own risk.
 
-On Linux, the default path is:
-
-```text
-~/.local/share/songsofsyx/mods/Raider Settings
-```
-
-To build without installing, run `mvn package`. The complete mod is written to
-`target/out/Raider Settings`. For Wine, copy this folder into the Windows game's
-`%APPDATA%\songsofsyx\mods` directory inside the Wine prefix.
-
-## 71.90 loading crash
-
-Version 71.90 added a required key argument to `IFullView` and removed
-`ROOMS.BARRACKS`. Older mod builds can therefore throw `NoSuchMethodError` while
-constructing the raider panel or `NoSuchFieldError` while checking raider interest.
-The mod now supplies the `RAIDING` panel key and checks unlocked training rooms
-through `ROOM_M_TRAINER.ALL()`, including the game's 200-population minimum.
-Wealth scaling and ruthless-raider settings still apply to the wealth check.
-Rebuild against the matching 71.90 game JAR and replace the installed mod JAR.
-
-## Earlier 71.76 loading crash
-
-The game moved `Profiler` from `game.debug` to `game.profile`. Older builds of
-this mod therefore provide the wrong signature for `RaidingCurrent.update`,
-causing `NoSuchMethodError` when 71.76 calls it. The import is updated here;
-rebuild and replace the installed mod JAR to apply the fix.
-
-The game's generic “Failed loading assets” / code-mod dialog hides this linkage
-error. In 71.76 and 71.90, that error path prints the stack trace to the console
-but does not write the usual error dump. Logs normally live in
-`%APPDATA%\songsofsyx\logs` (typically
-`$WINEPREFIX/drive_c/users/<user>/AppData/Roaming/songsofsyx/logs` under Wine).
-If no trace is there, start the game from a terminal using your usual Wine prefix
-and executable, capturing both streams:
-
-```bash
-wine "/path/to/game.exe" > "$HOME/songsofsyx-crash.log" 2>&1
-```
+Show All Raider Info (0 or 1)
+Removes raider fog of war if you don't care about roleplay like this. You will see portraits and armies of all raiders even if they never raided you.

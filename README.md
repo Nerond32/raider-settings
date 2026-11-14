@@ -2,20 +2,20 @@ Vanilla friendly set of configurable options to raiders in the game. Raids are t
 
 This mod doesn't modify save file and can be added/removed without issues.
 
-Config
+### Config
 This game uses a configuration file to save those settings, which can be found in:
 Windows: C:/users/{your_username}/AppData/Roaming/songsofsyx/settings/EmiTheWitch.txt
 Linux: home/{your_username}/.local/share/songsofsyx/settings/EmiTheWitch.txt) OR inside your wineprefix
 
 It will be created the first time you load any game with the mod active.
 
-How to change settings:
+####How to change settings:
 Edit the .txt file directly.
 OR use the Extra Info mod by EmilyTheWitch to access a "Mod Settings" tab in-game.
 
 Changes should work as soon as you reload the game or manual/auto save is triggered. If it doesn't do the trick - restart the game.
 
-Default config
+### Default config
 Raid_Settings_Bounty_Multiplier=1.0
 Raid_Settings_Fearless_Raiders=0
 Raid_Settings_Frequency=5.0
@@ -26,7 +26,7 @@ Raid_Settings_Wealth_Scaling=1.0
 
 To reset your config either replace it with above or remove the file and let game recreate the config. Setting invalid value will reset them to default as well.
 
-Settings explained
+### Settings explained
 
 Bounty Multiplier (0.0 to 100.0)
 Multiplies denars you get for defeating a raider.

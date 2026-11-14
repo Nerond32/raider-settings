@@ -7,7 +7,7 @@ import game.faction.FACTIONS;
 import init.race.RACES;
 import init.race.Race;
 import init.type.HTYPES;
-import settlement.main.SETT;
+import settlement.room.military.training.ROOM_M_TRAINER;
 import settlement.stats.Induvidual;
 import settlement.stats.STATS;
 import snake2d.util.gui.GUI_BOX;
@@ -95,9 +95,15 @@ public class Raider implements Serializable{
 	}
 
 	public boolean hasInterrest() {
-		if (!SETT.ROOMS().BARRACKS.get(0).reqs.passes(FACTIONS.player()))
+		if (STATS.POP().POP.data(null).get(null) < 200)
 			return false;
-		return GAME.raiders().util.ransomCurrent() * RaidProp.wealthScaling > worth || RaidProp.ruthlessRaiders;
+		if (!RaidProp.ruthlessRaiders && GAME.raiders().util.ransomCurrent() * RaidProp.wealthScaling < worth)
+			return false;
+		for (ROOM_M_TRAINER<?> trainer : ROOM_M_TRAINER.ALL()) {
+			if (trainer.reqs.passes(FACTIONS.player()))
+				return true;
+		}
+		return false;
 	}
 	
 	public boolean isScared() {

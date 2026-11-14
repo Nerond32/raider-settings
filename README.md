@@ -26,7 +26,7 @@ Invalid or missing values are replaced with defaults when the mod loads.
 
 ## Build and install
 
-Build against Songs of Syx **71.76** using Java 21 or newer. The game JAR and
+Build against Songs of Syx **71.90** using Java 21 or newer. The game JAR and
 `info/SongsOfSyx-sources.jar` must come from that installation. Override the
 installation path with `-Dgame.install.directory="/path/to/Songs of Syx"` if needed.
 
@@ -55,7 +55,17 @@ To build without installing, run `mvn package`. The complete mod is written to
 `target/out/Raider Settings`. For Wine, copy this folder into the Windows game's
 `%APPDATA%\songsofsyx\mods` directory inside the Wine prefix.
 
-## 71.76 loading crash
+## 71.90 loading crash
+
+Version 71.90 added a required key argument to `IFullView` and removed
+`ROOMS.BARRACKS`. Older mod builds can therefore throw `NoSuchMethodError` while
+constructing the raider panel or `NoSuchFieldError` while checking raider interest.
+The mod now supplies the `RAIDING` panel key and checks unlocked training rooms
+through `ROOM_M_TRAINER.ALL()`, including the game's 200-population minimum.
+Wealth scaling and ruthless-raider settings still apply to the wealth check.
+Rebuild against the matching 71.90 game JAR and replace the installed mod JAR.
+
+## Earlier 71.76 loading crash
 
 The game moved `Profiler` from `game.debug` to `game.profile`. Older builds of
 this mod therefore provide the wrong signature for `RaidingCurrent.update`,
@@ -63,8 +73,8 @@ causing `NoSuchMethodError` when 71.76 calls it. The import is updated here;
 rebuild and replace the installed mod JAR to apply the fix.
 
 The game's generic “Failed loading assets” / code-mod dialog hides this linkage
-error. In 71.76, that error path prints the stack trace to the console but does
-not write the usual error dump. Logs normally live in
+error. In 71.76 and 71.90, that error path prints the stack trace to the console
+but does not write the usual error dump. Logs normally live in
 `%APPDATA%\songsofsyx\logs` (typically
 `$WINEPREFIX/drive_c/users/<user>/AppData/Roaming/songsofsyx/logs` under Wine).
 If no trace is there, start the game from a terminal using your usual Wine prefix

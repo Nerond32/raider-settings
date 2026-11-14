@@ -21,7 +21,7 @@ public final class UIRaiding extends IFullView {
 //	final Army army = new Army();
 	
 	public UIRaiding() {
-		super(Dic.¤¤Raiding, UI.icons().l.rebel);
+		super(Dic.¤¤Raiding, UI.icons().l.rebel, "RAIDING");
 		
 		section.body().setWidth(WIDTH);
 		section.body().setHeight(1);
